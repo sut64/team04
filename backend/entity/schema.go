@@ -133,3 +133,30 @@ type Paymentmethod struct {
 	Reciepts            []Reciept     `gorm:"foreignKey:PaymentmethodID"`
 	Reservation         []Reservation `gorm:"foreignKey:PaymentmethodID"`
 }
+
+type Checkout struct {
+	gorm.Model
+	Checkout_datetime time.Time
+	Room_condition    string
+	Room_charge       uint
+
+	//Customer_id ทำหน้าที่เป็น FK
+	CustomerID *uint
+	Customer   Customer
+
+	//Employee_id ทำหน้าที่เป็น FK
+	EmployeeID *uint
+	Employee   Employee
+
+	//Checkin_id ทำหน้าที่เป็น FK
+	CheckinID *uint
+	Checkin   Checkin
+
+	//Reservation_id ทำหน้าที่เป็น FK
+	ReservationID *uint
+	Reservation   Reservation
+
+	//Reciept_id ทำหน้าที่เป็น FK
+	RecieptID *uint
+	Reciept   Reciept
+}
