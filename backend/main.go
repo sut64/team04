@@ -2,8 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/tanapon395/se-64-example/controller"
-	"github.com/tanapon395/se-64-example/entity"
+	"github.com/sut64/team04/entity"
 )
 
 func main() {
@@ -11,11 +10,7 @@ func main() {
 	r := gin.Default()
 	r.Use(CORSMiddleware())
 	// User Routes
-	r.GET("/users", controller.ListUsers)
-	r.GET("/user/:id", controller.GetUser)
-	r.POST("/users", controller.CreateUser)
-	r.PATCH("/users", controller.UpdateUser)
-	r.DELETE("/users/:id", controller.DeleteUser)
+
 	// Run the server
 	r.Run()
 }
