@@ -19,6 +19,9 @@ func SetupDatabase() {
 
 	// Migrate the schema
 	database.AutoMigrate(
+		&Customer{},
+		&Employee{},
+		&Reservation{},
 		&Building{},
 		&Room_type{},
 		&Room_status{},
