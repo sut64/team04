@@ -151,6 +151,28 @@ type Checkin struct {
 
 	Checkouts []Checkout `gorm:"foreignKey:CheckinID"`
 }
+//------------ระบบทำความสะอาด---------------//
+type Cleaninformation struct {
+	gorm.Model
+
+	Hastelevel uint
+	Cleandate  time.Time
+	Note       string
+
+	CustomerID *uint
+	Customer   Customer `gorm:"references:id"`
+
+	CleanservicetypeID *uint
+	Cleanservicetype   Cleanservicetype `gorm:"references:id"`
+
+	RestroomID *uint
+	Restroom   Restroom `gorm:"references:id"`
+}
+type Cleanservicetype struct {
+	gorm.Model
+	Cleanservice_type string
+	Cleaninformations []Cleaninformation `gorm:"foreignKey:CleanservicetypeID"`
+}
 
 type Checkout struct {
 	gorm.Model

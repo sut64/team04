@@ -27,6 +27,8 @@ func SetupDatabase() {
 		&Room_type{},
 		&Room_status{},
 		&Restroom{},
+		&Cleaninformation{},
+		&Cleanservicetype{},
 		&Reciept{},
 		&Checkin{},
 		&Checkout{},
