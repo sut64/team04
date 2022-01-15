@@ -1,4 +1,4 @@
-module github.com/tanapon395/se-64-example
+module github.com/sut64/team04
 
 go 1.16
 
