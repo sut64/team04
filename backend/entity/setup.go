@@ -28,6 +28,7 @@ func SetupDatabase() {
 		&Room_status{},
 		&Restroom{},
 		&Reciept{},
+		&Checkin{},
 		&Checkout{},
 	)
 	db = database
