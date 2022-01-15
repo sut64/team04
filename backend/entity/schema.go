@@ -134,6 +134,24 @@ type Paymentmethod struct {
 	Reservation         []Reservation `gorm:"foreignKey:PaymentmethodID"`
 }
 
+//------------ระบบCheck-in---------------//
+type Checkin struct {
+	gorm.Model
+	CustomerID              *uint
+	Customer                Customer
+	EmployeeID              *uint
+	Employee                Employee
+	ReservationID           *uint
+	Reservation             Reservation
+	RecieptID               *uint
+	Reciept                 Reciept
+	Checkin_datetime        time.Time
+	Checkin_equiptment      string
+	Checkin_equiptment_cost uint
+
+	Checkouts []Checkout `gorm:"foreignKey:CheckinID"`
+}
+
 type Checkout struct {
 	gorm.Model
 	Checkout_datetime time.Time
