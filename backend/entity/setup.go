@@ -21,11 +21,13 @@ func SetupDatabase() {
 	database.AutoMigrate(
 		&Customer{},
 		&Employee{},
+		&Paymentmethod{},
 		&Reservation{},
 		&Building{},
 		&Room_type{},
 		&Room_status{},
 		&Restroom{},
+		&Reciept{},
 	)
 	db = database
 }

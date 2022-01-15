@@ -97,3 +97,39 @@ type Reservation struct {
 	Checkins  []Checkin  `gorm:"foreignKey:ReservationID"`
 	Checkouts []Checkout `gorm:"foreignKey:ReservationID"`
 }
+
+//------------ระบบชำระเงิน---------------//
+
+type Reciept struct {
+	gorm.Model
+	Payment_status string
+	Price          uint
+	Payment_date   time.Time
+	Payment_bill   string
+
+	PaymentmethodID *uint
+	Paymentmethod   Paymentmethod
+
+	ReservationID *uint
+	Reservation   Reservation
+
+	RestroomID *uint
+	Restroom   Restroom
+
+	EmployeeID *uint
+	Employee   Employee
+
+	CustomerID *uint
+	Customer   Customer
+
+	Checkins  []Checkin  `gorm:"foreignKey:RecieptID"`
+	Checkouts []Checkout `gorm:"foreignKey:RecieptID"`
+}
+
+type Paymentmethod struct {
+	gorm.Model
+	Payment_type        string
+	Payment_description string
+	Reciepts            []Reciept     `gorm:"foreignKey:PaymentmethodID"`
+	Reservation         []Reservation `gorm:"foreignKey:PaymentmethodID"`
+}
