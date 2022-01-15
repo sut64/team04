@@ -6,6 +6,36 @@ import (
 	"gorm.io/gorm"
 )
 
+//-----------ระบบสมาชิก----------------//
+type Customer struct {
+	gorm.Model
+	Customer_name   string
+	Customer_gender string
+	Employee_tel    string
+	Email           string
+	Password        string
+
+	Reciepts          []Reciept          `gorm:"foreignKey:CustomerID"`
+	Checkins          []Checkin          `gorm:"foreignKey:CustomerID"`
+	Checkouts         []Checkout         `gorm:"foreignKey:CustomerID"`
+	Reservations      []Reservation      `gorm:"foreignKey:CustomerID"`
+	Cleaninformations []Cleaninformation `gorm:"foreignKey:CustomerID"`
+}
+
+type Employee struct {
+	gorm.Model
+	Employee_name   string
+	Customer_gender string
+	Employee_tel    string
+	Email           string
+	Password        string
+
+	Restrooms []Restroom `gorm:"foreignKey:EmployeeID"`
+	Checkins  []Checkin  `gorm:"foreignKey:EmployeeID"`
+	Checkouts []Checkout `gorm:"foreignKey:EmployeeID"`
+	Reciepts  []Reciept  `gorm:"foreignKey:EmployeeID"`
+}
+
 //------------ระบบห้องพัก---------------//
 
 type Restroom struct {
@@ -43,4 +73,27 @@ type Room_status struct {
 	gorm.Model
 	Room_status string
 	Restrooms   []Restroom `gorm:"foreignKey:Room_statusID"`
+}
+
+//------------ระบบจองห้องพัก---------------//
+
+type Reservation struct {
+	gorm.Model
+	Checkin_date    time.Time
+	Checkout_date   time.Time
+	Number_customer uint
+	Customer_tel    string
+
+	CustomerID *uint
+	Customer   Customer
+
+	PaymentmethodID *uint
+	Paymentmethod   Paymentmethod
+
+	RestroomID *uint
+	Restroom   Restroom
+
+	Reciepts  []Reciept  `gorm:"foreignKey:ReservationID"`
+	Checkins  []Checkin  `gorm:"foreignKey:ReservationID"`
+	Checkouts []Checkout `gorm:"foreignKey:ReservationID"`
 }
