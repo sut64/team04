@@ -151,6 +151,7 @@ type Checkin struct {
 
 	Checkouts []Checkout `gorm:"foreignKey:CheckinID"`
 }
+
 //------------ระบบทำความสะอาด---------------//
 type Cleaninformation struct {
 	gorm.Model
