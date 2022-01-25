@@ -11,8 +11,7 @@ type Customer struct {
 	gorm.Model
 	Customer_name   string
 	Customer_gender string
-	Employee_tel    string
-	Email           string
+	Email           string `gorm:"uniqueIndex"`
 	Password        string
 
 	Reciepts          []Reciept          `gorm:"foreignKey:CustomerID"`
@@ -24,11 +23,10 @@ type Customer struct {
 
 type Employee struct {
 	gorm.Model
-	Employee_name   string
-	Customer_gender string
-	Employee_tel    string
-	Email           string
-	Password        string
+	Employee_name string
+	Employee_tel  string
+	Email         string
+	Password      string
 
 	Restrooms []Restroom `gorm:"foreignKey:EmployeeID"`
 	Checkins  []Checkin  `gorm:"foreignKey:EmployeeID"`
@@ -51,9 +49,10 @@ type Restroom struct {
 	EmployeeID           *uint
 	Employee             Employee
 	Update_date          time.Time
-	Reservations         []Reservation      `gorm:"foreignKey:RestroomID"`
-	Reciepts             []Reciept          `gorm:"foreignKey:RestroomID"`
-	Cleaninformations    []Cleaninformation `gorm:"foreignKey:RestroomID"`
+
+	Reservations      []Reservation      `gorm:"foreignKey:RestroomID"`
+	Reciepts          []Reciept          `gorm:"foreignKey:RestroomID"`
+	Cleaninformations []Cleaninformation `gorm:"foreignKey:RestroomID"`
 }
 
 type Building struct {
@@ -65,8 +64,9 @@ type Building struct {
 
 type Room_type struct {
 	gorm.Model
-	Room_type string
-	Restrooms []Restroom `gorm:"foreignKey:Room_typeID"`
+	Room_type  string
+	Room_price uint
+	Restrooms  []Restroom `gorm:"foreignKey:Room_typeID"`
 }
 
 type Room_status struct {
@@ -107,6 +107,8 @@ type Reciept struct {
 	Payment_date   time.Time
 	Payment_bill   string
 
+	Customer_name string ////เพิ่มมาทีหลัง
+
 	PaymentmethodID *uint
 	Paymentmethod   Paymentmethod
 
@@ -131,7 +133,7 @@ type Paymentmethod struct {
 	Payment_type        string
 	Payment_description string
 	Reciepts            []Reciept     `gorm:"foreignKey:PaymentmethodID"`
-	Reservation         []Reservation `gorm:"foreignKey:PaymentmethodID"`
+	Reservations        []Reservation `gorm:"foreignKey:PaymentmethodID"`
 }
 
 //------------ระบบCheck-in---------------//
