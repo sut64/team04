@@ -16,6 +16,22 @@ func main() {
 	{
 		protected := api.Use(middlewares.Authorizes())
 		{
+
+			// Employee Routes
+			protected.GET("/employees", controller.ListEmployee)
+			protected.GET("/employee/:id", controller.GetEmployee)
+			protected.POST("/employees", controller.CreateEmployee)
+			protected.PATCH("/employees", controller.UpdateEmployee)
+			protected.DELETE("/employees/:id", controller.DeleteEmployee)
+			// Customer Routes
+			protected.GET("/customers", controller.ListCustomers)
+			protected.GET("/customer/:id", controller.GetCustomer)
+			protected.POST("/customers", controller.CreateCustomer)
+			protected.PATCH("/customers", controller.UpdateCustomer)
+			protected.DELETE("/customers/:id", controller.DeleteCustomer)
+
+			// -------------------------------------------------------------------------------------------
+			// ระบบห้องพัก -- ฝุ่น
 			// Restroom Routes
 			protected.GET("/restrooms", controller.ListRestroom)
 			protected.GET("/restroom/:id", controller.GetRestroom)
@@ -44,17 +60,75 @@ func main() {
 			protected.PATCH("/room_statuses", controller.UpdateRoomStatus)
 			protected.DELETE("/room_statuses/:id", controller.DeleteRoomStatus)
 
-			// room_statuses Routes
-			protected.GET("/employees", controller.ListEmployee)
-			protected.GET("/employee/:id", controller.GetEmployee)
-			protected.POST("/employees", controller.CreateEmployee)
-			protected.PATCH("/employees", controller.UpdateEmployee)
-			protected.DELETE("/employees/:id", controller.DeleteEmployee)
+			// -------------------------------------------------------------------------------------------
 
-			// Run the server
+			// PaymentMethod Routes
+			protected.GET("/paymentmethods", controller.ListPaymentMethods)
+			protected.GET("/paymentmethod/:id", controller.GetPaymentMethod)
+			protected.POST("/paymentmethods", controller.CreatePaymentMethod)
+			protected.PATCH("/paymentmethods", controller.UpdatePaymentMethod)
+			protected.DELETE("/paymentmethods/:id", controller.DeletePaymentMethod)
+
+			// -------------------------------------------------------------------------------------------
+			// ระบบจองห้องพัก -- มิ้ว
+			// Reservation Routes
+			protected.GET("/reservations", controller.ListReservations)
+			protected.GET("/reservation/:id", controller.GetReservation)
+			protected.POST("/reservations", controller.CreateReservation)
+			protected.PATCH("/reservations", controller.UpdateReservation)
+			protected.DELETE("/reservations/:id", controller.DeleteReservation)
+
+			// -------------------------------------------------------------------------------------------
+			// ระบบชำระเงิน -- เจได
+			//	Reciepts
+			protected.GET("/reciepts", controller.ListReciepts)
+			protected.GET("/reciept/:id", controller.GetReciept)
+			protected.POST("/reciepts", controller.CreateReciept)
+			protected.PATCH("/reciepts", controller.UpdateReciept)
+			protected.DELETE("/reciepts/:id", controller.DeleteReciept)
+
+			// -------------------------------------------------------------------------------------------
+			// ระบบ Check-in -- เปตอง
+			// Checkin
+			protected.GET("/checkins", controller.ListCheckins)
+			protected.GET("/checkin/:id", controller.GetCheckins)
+			protected.POST("/checkins", controller.CreateCheckins)
+			protected.PATCH("/checkins", controller.UpdateCheckins)
+			protected.DELETE("/checkins/:id", controller.DeleteCheckins)
+
+			// -------------------------------------------------------------------------------------------
+			// ระบบ Check-out -- แฮ้ม
+			// Checkout
+			protected.GET("/checkouts", controller.ListCheckout)
+			protected.GET("/checkout/:id", controller.GetCheckout)
+			protected.POST("/checkouts", controller.CreateCheckout)
+			protected.PATCH("/checkouts", controller.UpdateCheckout)
+			protected.DELETE("/checkouts/:id", controller.DeleteCheckout)
+
+			// -------------------------------------------------------------------------------------------
+			// ระบบแจ้งทำความสะอาด
+			// Cleanservicetype Routes
+			protected.POST("/cleanservicetypes", controller.CreateCleanservicetype)
+			protected.GET("/cleanservicetype/:id", controller.GetCleanservicetype)
+			protected.GET("/cleanservicetypes", controller.ListCleanservicetypes)
+			protected.PATCH("/cleanservicetypes", controller.UpdateCleanservicetype)
+			protected.DELETE("/cleanservicetypes/:id", controller.DeleteCleanservicetype)
+
+			// Cleaninformation Routes
+			protected.GET("/cleaninformations", controller.ListCleaninformations)
+			protected.GET("/cleaninformation/:id", controller.GetCleaninformation)
+			protected.POST("/cleaninformations", controller.CreateCleaninformation)
+			protected.PATCH("/cleaninformations", controller.UpdateCleaninformation)
+			protected.DELETE("/cleaninformations/:id", controller.DeleteCleaninformation)
+
+			// -------------------------------------------------------------------------------------------
 		}
 	}
-	r.POST("/login", controller.LoginEmployee)
+
+	// Authentication Routes
+	r.POST("/login", controller.LoginReservation)
+
+	// Run the server
 	r.Run()
 }
 
