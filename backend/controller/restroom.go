@@ -18,24 +18,23 @@ func CreateRestroom(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
-	if tx := entity.DB().Where("id = ?", restroom.Employee).First(&employee); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
-		return
-	}
-
-	if tx := entity.DB().Where("id = ?", restroom.Building).First(&building); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", restroom.BuildingID).First(&building); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "building not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", restroom.Room_type).First(&roomtype); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "name_title not found"})
+	if tx := entity.DB().Where("id = ?", restroom.EmployeeID).First(&employee); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "employee not found"})
 		return
 	}
 
-	if tx := entity.DB().Where("id = ?", restroom.Room_status).First(&roomstatus); tx.RowsAffected == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "faculty not found"})
+	if tx := entity.DB().Where("id = ?", restroom.Room_typeID).First(&roomtype); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "roomtype not found"})
+		return
+	}
+
+	if tx := entity.DB().Where("id = ?", restroom.Room_statusID).First(&roomstatus); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "roomstatus not found"})
 		return
 	}
 
@@ -56,6 +55,15 @@ func CreateRestroom(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"data": ap})
 }
 
+func ListRestroom(c *gin.Context) {
+	var restroom []entity.Restroom
+	if err := entity.DB().Preload("Building").Preload("Room_type").Preload("Room_status").Preload("Employee").Raw("SELECT * FROM restrooms").Find(&restroom).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"data": restroom})
+}
+
 func GetRestroom(c *gin.Context) {
 	var restroom entity.Restroom
 	id := c.Param("id")
@@ -66,15 +74,6 @@ func GetRestroom(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"data": restroom})
 
-}
-
-func ListRestrooms(c *gin.Context) {
-	var restrooms []entity.Restroom
-	if err := entity.DB().Preload("Building").Preload("Room_type").Preload("Room_status").Preload("Employee").Raw("SELECT * FROM restrooms").Find(&restrooms).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	c.JSON(http.StatusOK, gin.H{"data": restrooms})
 }
 
 func DeleteRestroom(c *gin.Context) {
