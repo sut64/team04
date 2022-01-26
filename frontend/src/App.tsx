@@ -1,9 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
  
 import Navbar from "./components/Navbar";
-import Users from "./components/Users";
-import UserCreate from "./components/UserCreate";
 import Home from "./components/Home";
 import Restroom from "./components/Restroom";
 import RestroomCreate from "./components/RestroomCreate";
@@ -17,12 +15,37 @@ import Reservation from "./components/Reservation";
 import ReservationCreate from "./components/ReservationCreate";
 import CleanInformation from "./components/CleanInformation";
 import CleanInformationCreate from "./components/CleanInformationCreate";
+import SignIn from "./components/SignIn";
+import { AppBar, Button, IconButton, Toolbar, Typography } from "@material-ui/core";
  
 export default function App() {
+  const [token, setToken] = React.useState<String>("");
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    }
+  }, []);
+    if (!token) {
+      return <SignIn />;
+    }
+  
+  
+  const signout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  };
+
  return (
    <Router>
+      
      <div>
+       
        <Navbar />
+       <Button color="inherit" onClick={signout}>
+            ออกจากระบบ
+        </Button>
         <Routes>
             <Route path='/' element={<Home/>} />
             <Route path='/Restroom' element={<Restroom/>} />
