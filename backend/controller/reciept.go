@@ -42,8 +42,14 @@ func CreateReciept(c *gin.Context) {
 		return
 	}
 
+	//  ค้นหา Paymentmethod ด้วย id
+	if tx := entity.DB().Where("id = ?", reciept.PaymentmethodID).First(&payment_method); tx.RowsAffected == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Paymentmethod not found"})
+		return
+	}
+
 	//  ค้นหา Customer ด้วย id
-	if tx := entity.DB().Where("id = ?", reciept.Customer.Customer_name).First(&customer); tx.RowsAffected == 0 {
+	if tx := entity.DB().Where("id = ?", reciept.CustomerID).First(&customer); tx.RowsAffected == 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Customer not found"})
 		return
 	}
@@ -57,6 +63,7 @@ func CreateReciept(c *gin.Context) {
 		Employee:      employee,       // โยงความสัมพันธ์กับ Entity Employee
 		Customer:      customer,       // โยงความสัมพันธ์กับ Entity Customer
 		//Customer_name:  customer.Customer_name,
+
 		Payment_status: reciept.Payment_status,
 		Price:          reciept.Price,
 		Payment_date:   reciept.Payment_date,
@@ -76,7 +83,7 @@ func CreateReciept(c *gin.Context) {
 func GetReciept(c *gin.Context) {
 	var reciept entity.Reciept
 	id := c.Param("id")
-	if err := entity.DB().Preload("Reservation").Preload("Restroom").Preload("Employee").Preload("Customer").Raw("SELECT * FROM reciepts WHERE id = ?", id).Find(&reciept).Error; err != nil {
+	if err := entity.DB().Preload("Reservation").Preload("Restroom").Preload("Employee").Preload("Customer").Preload("Paymentmethod").Raw("SELECT * FROM reciepts WHERE id = ?", id).Find(&reciept).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -86,7 +93,7 @@ func GetReciept(c *gin.Context) {
 // GET /Reciepts
 func ListReciepts(c *gin.Context) {
 	var reciepts []entity.Reciept
-	if err := entity.DB().Preload("Reservation").Preload("Restroom").Preload("Employee").Preload("Customer").Raw("SELECT * FROM reciepts").Find(&reciepts).Error; err != nil {
+	if err := entity.DB().Preload("Reservation").Preload("Restroom").Preload("Employee").Preload("Customer").Preload("Paymentmethod").Raw("SELECT * FROM reciepts").Find(&reciepts).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
