@@ -27,6 +27,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { format } from 'date-fns'
 
 
 
@@ -346,7 +347,7 @@ function CheckoutCreate() {
 
                 {checkins.map((item: CheckinInterface) => (
                   <option value={item.ID} key={item.ID}>
-                    {item.Checkin_equiptment_cost}
+                    {format((new Date(item.Checkin_datetime)), 'dd MMMM yyyy hh:mm a')}
                   </option>
                  ))}
                
