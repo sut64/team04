@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
  
 import Navbar from "./components/Navbar";
-import Home from "./components/Home";
+import HomeCustomer from "./components/HomeCustomer";
 import Restroom from "./components/Restroom";
 import RestroomCreate from "./components/RestroomCreate";
 import CheckIn from "./components/CheckIn";
@@ -14,40 +14,42 @@ import PaymentBill from "./components/PaymentBill";
 import Reservation from "./components/Reservation";
 import ReservationCreate from "./components/ReservationCreate";
 import CleanInformation from "./components/CleanInformation";
+import HomeEmployee from "./components/HomeEmployee";
 import CleanInformationCreate from "./components/CleanInformationCreate";
 import SignIn from "./components/SignIn";
 import { AppBar, Button, IconButton, Toolbar, Typography } from "@material-ui/core";
+import { Link } from "react-router-dom";
  
 export default function App() {
   const [token, setToken] = React.useState<String>("");
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
+      
     }
+    
+    
   }, []);
+    
     if (!token) {
       return <SignIn />;
     }
+   
   
   
-  const signout = () => {
-    localStorage.clear();
-    window.location.href = "/";
-  };
-
+  
  return (
    <Router>
       
      <div>
        
        <Navbar />
-       <Button color="inherit" onClick={signout}>
-            ออกจากระบบ
-        </Button>
+       
+         
+
         <Routes>
-            <Route path='/' element={<Home/>} />
+            <Route path='/' element={<HomeCustomer/>} />
             <Route path='/Restroom' element={<Restroom/>} />
             <Route path='/RestroomCreate' element={<RestroomCreate/>} />
             <Route path='/CheckIn' element={<CheckIn/>} />

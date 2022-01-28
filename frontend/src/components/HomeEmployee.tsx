@@ -2,10 +2,10 @@ import React from "react";
 import { Button } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-function Home() {
+function HomeEmployee() {
     return(
         <div>
-            <h1>This is Home Page</h1>
+            <h1>This is Home Page for Employee</h1>
             <Button component={RouterLink} to="/Restroom" variant="contained">Restroom</Button>
             <Button component={RouterLink} to="/CheckIn" variant="contained">CheckIn</Button>
             <Button component={RouterLink} to="/CheckOut" variant="contained">CheckOut</Button>
@@ -15,4 +15,4 @@ function Home() {
         </div>
     );
 }
-export default Home;
+export default HomeEmployee;

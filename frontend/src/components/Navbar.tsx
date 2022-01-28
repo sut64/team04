@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Grid } from "@material-ui/core";
  
 const useStyles = makeStyles((theme) => ({
  root: {flexGrow: 1},
@@ -13,6 +15,11 @@ const useStyles = makeStyles((theme) => ({
  title: {flexGrow: 1},
  navlink: {color: "white",textDecoration: "none"},
 }));
+
+const signout = () => {
+  localStorage.clear();
+  window.location.href = "/";
+};
  
 function Navbar() {
  const classes = useStyles();
@@ -30,9 +37,15 @@ function Navbar() {
          </IconButton>
          <Link className={classes.navlink} to="/">
            <Typography variant="h6" className={classes.title}>
-             System Analysis and Design
+             ระบบโรงแรม
            </Typography>
          </Link>
+         <Grid xs={2}>
+           <Button color="inherit" onClick={signout}>
+            ออกจากระบบ
+        </Button>
+         </Grid>
+         
        </Toolbar>
      </AppBar>
    </div>

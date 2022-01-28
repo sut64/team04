@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
+import { Button, Stack } from "@mui/material";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -12,6 +12,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 
 import { SigninInterface } from "../models/ISignin";
+import { Box, Grid, Modal } from "@mui/material";
+
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -27,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
+    alignItems: "center",
+    width: 50,
+    height: 50,
   },
   form: {
     width: "100%",
@@ -43,8 +48,26 @@ function SignIn() {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
 
-  const login = () => {
-    const apiUrl = "http://localhost:8080/login";
+  const [ModalLogin, setModalLogin] = React.useState(false);
+  const [Buttom,setButtom] = useState(0);
+  const ModalLoginOpen = () => {setModalLogin(true); setButtom(1);};
+  const ModalLogin2Open = () => {setModalLogin(true); setButtom(2);};
+  const ModalLoginClose = () => {setModalLogin(false); setButtom(0);}
+
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+  };
+  const loginEmployee = () => {
+    const apiUrl = "http://localhost:8080/loginEmployee";
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -57,12 +80,37 @@ function SignIn() {
           setSuccess(true);
           localStorage.setItem("token", res.data.token);
           localStorage.setItem("uid", res.data.id);
+          localStorage.setItem("loginstat", "1");
           window.location.reload()
         } else {
           setError(true);
         }
       });
   };
+  
+  const loginCustomer = () => {
+    const apiUrl = "http://localhost:8080/loginCustomer";
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(signin),
+    };
+    fetch(apiUrl, requestOptions)
+      .then((response) => response.json())
+      .then((res) => {
+        if (res.data) {
+          setSuccess(true);
+          
+          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("uid", res.data.id);
+          localStorage.setItem("loginstat", "2");
+          window.location.reload()
+        } else {
+          setError(true);
+        }
+      });
+  };
+ 
 
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -98,49 +146,97 @@ function SignIn() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign in
-
-        </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="Email"
-            label="Email Address"
-            name="Email"
-            autoComplete="email"
-            autoFocus
-            value={signin.Email || ""}
-            onChange={handleInputChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="Password"
-            label="Password"
-            type="password"
-            id="Password"
-            autoComplete="current-password"
-            value={signin.Password || ""}
-            onChange={handleInputChange}
-          />
-          <Button
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-            onClick={login}
-          >
-            Sign In
-          </Button>
+          เข้าสู่ระบบในฐานะ
           
-        </form>
+        </Typography>
+          <p></p>
+          <h6>Customer Email : prayyy@gmail.com ,password : 123456 </h6>
+          <h6>Employee Email : Thanakon2604@gmail.com ,password : 123456 </h6>
+          <p></p>
+      <Stack spacing={2}>
+        <Button onClick={ModalLoginOpen} variant="contained">Employee</Button>
+        <Button onClick={ModalLogin2Open} variant="outlined">Customer</Button>
+      </Stack>
+        
+      
+      
+      
+     
       </div>
+      <Modal open={ModalLogin} onClose={ModalLoginClose}>
+        
+          <div className={classes.paper}>
+            <Box sx={style}>
+
+            {Buttom === 1 && (
+              <Typography component="h1" variant="h5" align="center">
+                Employee Sign in
+              </Typography>
+          )}
+            {Buttom === 2 && (
+              <Typography component="h1" variant="h5" align="center">
+                Customer Sign in
+              </Typography>
+          )}
+          
+          <form className={classes.form} noValidate>
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              id="Email"
+              label="Email Address"
+              name="Email"
+              autoComplete="email"
+              autoFocus
+              value={signin.Email || ""}
+              onChange={handleInputChange}
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              fullWidth
+              name="Password"
+              label="Password"
+              type="password"
+              id="Password"
+              autoComplete="current-password"
+              value={signin.Password || ""}
+              onChange={handleInputChange}
+            />
+            {Buttom === 1 && (
+              <Button
+              fullWidth
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+              onClick={loginEmployee}
+            >
+              Sign In
+            </Button>
+          )}
+            {Buttom === 2 && (
+               <Button
+               fullWidth
+               variant="contained"
+               color="primary"
+               className={classes.submit}
+               onClick={loginCustomer}
+             >
+               Sign In
+             </Button>
+          )}
+            
+          </form></Box>
+        </div>
+        
+      </Modal>
+      
     </Container>
+
+    
   );
 }
 
