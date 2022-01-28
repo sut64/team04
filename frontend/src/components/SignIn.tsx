@@ -150,8 +150,7 @@ function SignIn() {
           
         </Typography>
           <p></p>
-          <h6>Customer Email : prayyy@gmail.com ,password : 123456 </h6>
-          <h6>Employee Email : Thanakon2604@gmail.com ,password : 123456 </h6>
+          <h6> Email : employee@gmail.com ,password : XXXXXXX </h6>
           <p></p>
       <Stack spacing={2}>
         <Button onClick={ModalLoginOpen} variant="contained">Employee</Button>
