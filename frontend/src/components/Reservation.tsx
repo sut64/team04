@@ -76,7 +76,7 @@ function Reservation() {
           <Box>
             <Button
               component={RouterLink}
-              to="/reservation/create"
+              to="/reservationCreate"
               variant="contained"
               color="primary"
             >
