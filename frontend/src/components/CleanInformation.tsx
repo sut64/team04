@@ -76,7 +76,7 @@ function Cleaninformations() {
           <Box>
             <Button
               component={RouterLink}
-              to="/cleaninformation/create"
+              to="/cleaninformationCreate"
               variant="contained"
               color="primary"
             >
