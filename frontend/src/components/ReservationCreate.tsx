@@ -378,21 +378,27 @@ function ReservationCreate() {
         </Grid>
         </Grid>
 
-          <Grid container spacing={5} className={classes.root}>
+        <Grid container spacing={3}>
           <Grid item xs={8}>
             <Button
               style={{ float: "right" }}
-              component={RouterLink}
-              to="/reservation"
               variant="contained"
               onClick={submit}
               color="primary"
             >
               บันทึกการจองห้องพัก
             </Button>
+            <Button
+              style={{ float: "left" }}
+              component={RouterLink}
+              to="/reservation"
+              variant="contained"
+              color="primary"
+            >
+              ข้อมูลการจอง
+            </Button>
           </Grid>
           </Grid>
-    
     </Container>
   );
 }
