@@ -11,7 +11,7 @@ function HomeCustomer() {
                 <div>
             
             <Button component={RouterLink} to="/CleanInformation" variant="contained">CleanInformation</Button>
-           <Button component={RouterLink} to="/Reservation" variant="contained">Reservation</Button>
+           <Button component={RouterLink} to="/ReservationCreate" variant="contained">Reservation</Button>
            </div>)
          }
         if (loginstat === "1"){
