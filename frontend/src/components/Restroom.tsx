@@ -58,24 +58,7 @@ function Restroom() {
         <Grid sx={{height:50}}>
             
         </Grid>
-        <Grid>
-        <Select
-                value={Building}
-                
-                inputProps={{
-                  name: "Building",
-                }}
-              >
-                <option aria-label="None" value="">
-                  กรุณาเลือก
-                </option>
-                {Building.map((item: BuildingInterface) => (
-                  <option value={item.ID} key={item.ID}>
-                    {item.Building_name}
-                  </option>
-                ))}
-              </Select>
-        </Grid>
+        
         <Grid>
           <Button variant="contained" component={RouterLink} to="/RestroomCreate">
             เพิ่มห้องพัก

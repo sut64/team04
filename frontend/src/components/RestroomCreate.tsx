@@ -21,6 +21,7 @@ function RestroomCreate() {
     const   [Employee, setEmployee] =    useState<EmployeeInterface>();
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
+    const [errorMessge, setErrorMessege] = useState("");
     
   const handleInputChange = (
     event: React.ChangeEvent<{ id?: string; value: any }>
@@ -165,9 +166,11 @@ function RestroomCreate() {
             if (res.data) {
               console.log("บันทึกได้")
               setSuccess(true);
+              setErrorMessege("");
             } else {
               console.log("บันทึกไม่ได้")
               setError(true);
+              setErrorMessege(res.error);
             }
         });
   }
@@ -179,15 +182,19 @@ function RestroomCreate() {
             <Container sx={{Width:600}}>
                 <Snackbar open={success} autoHideDuration={6000} >
                     <Alert onClose={handleClose} severity="success">
-                        บันทึกข้อมูลสำเร็จ
+                        บันทึกข้อมูลสำเร็จ 
                     </Alert>
                     </Snackbar>
                 <Snackbar open={error} autoHideDuration={6000} >
                     <Alert onClose={handleClose} severity="error">
-                        บันทึกข้อมูลไม่สำเร็จ
+                        บันทึกข้อมูลไม่สำเร็จ {errorMessge}
                     </Alert>
                  </Snackbar>
+                        <Grid>
+                          <p></p>
+                        </Grid>
                 <Grid container spacing={2}>
+                  
                     <Grid item xs={6}>
                         <p>Room Number</p>
                     </Grid>
@@ -198,7 +205,7 @@ function RestroomCreate() {
                             variant="outlined"
                             type="number"
                             size="medium"
-                            label="กรุณากรอกชื่อนามสกุล"
+                            label="กรุณากรอกเลขห้อง"
                             value={Restroom.Room_number || ""}
                             onChange={handleInputChange}
                         />
@@ -310,8 +317,8 @@ function RestroomCreate() {
                                 name: "EmployeeID",
                                 }}
                             >
-                              <option aria-label="None" value={2}>
-                                กรุณาเลือกอสถานะห้องพัก
+                              <option aria-label="None" value={""}>
+                                ผู้อัพเดท
                                 </option>
                                 <option value={Employee?.ID} key={Employee?.ID}>
                                     {Employee?.Employee_name}
@@ -325,17 +332,18 @@ function RestroomCreate() {
                     <Grid item xs={6}>
                     <MuiPickersUtilsProvider utils={DateFnsUtils}>
                       <KeyboardDateTimePicker
+                        
                         name="Update_date"
                         value={selectedDate}
                         onChange={handleDateChange}
-                        label="กรุณาเลือกวันที่และเวลา"
+                        label="กรุณาเลือกวันที่"
                         minDate={new Date("1900-01-01")}
                         format="yyyy/MM/dd"
                       />
                     </MuiPickersUtilsProvider>
                     </Grid>
                     <Grid>
-                      <p>555</p>
+                      <p></p>
                     </Grid>
                                  
 
