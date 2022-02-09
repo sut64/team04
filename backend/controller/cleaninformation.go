@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team04/entity"
 )
@@ -46,6 +47,11 @@ func CreateCleaninformation(c *gin.Context) {
 		Customer:         customer,
 		Restroom:         restroom,
 		Cleanservicetype: cleanservicetype,
+	}
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(Ci); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	// 13: บันทึก

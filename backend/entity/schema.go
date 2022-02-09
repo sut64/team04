@@ -161,18 +161,18 @@ type Checkin struct {
 type Cleaninformation struct {
 	gorm.Model
 
-	Hastelevel uint
-	Cleandate  time.Time
-	Note       string
+	Hastelevel uint      `valid:"range(0|5)~ต้องอยู่ระหว่าง 0-5 เท่านั้น"`
+	Cleandate  time.Time `valid:"future~วันที่ทำความสะอาดต้องไม่เป็นอดีต"`
+	Note       string    `valid:"stringlength(0|2000)~Note ไม่สามารถเกิน 2000 ตัวอักษรได้"`
 
 	CustomerID *uint
-	Customer   Customer `gorm:"references:id"`
+	Customer   Customer `gorm:"references:id" valid:"-"`
 
 	CleanservicetypeID *uint
-	Cleanservicetype   Cleanservicetype `gorm:"references:id"`
+	Cleanservicetype   Cleanservicetype `gorm:"references:id" valid:"-"`
 
 	RestroomID *uint
-	Restroom   Restroom `gorm:"references:id"`
+	Restroom   Restroom `gorm:"references:id" valid:"-"`
 }
 type Cleanservicetype struct {
 	gorm.Model
