@@ -180,31 +180,31 @@ type Cleanservicetype struct {
 	Cleaninformations []Cleaninformation `gorm:"foreignKey:CleanservicetypeID"`
 }
 
+//------------ระบบ check-out---------------//
 type Checkout struct {
 	gorm.Model
-	Checkout_datetime time.Time
-	Room_condition    string
-	Room_charge       uint
-
+	Checkout_datetime time.Time `valid:"future~วันที่ Checkout ต้องไม่เป็นวันในอดีต"`
+	Room_condition    string    `valid:"stringlength(0|2000)~สภาพห้องความยาวต้องไม่เกิน 2000 ตัวอักษร"`
+	Room_charge       int       `valid:"matches(^[1234567890])~ค่าปรับต้องไม่ติดลบ"`
 	//Customer_id ทำหน้าที่เป็น FK
 	CustomerID *uint
-	Customer   Customer
+	Customer   Customer `gorm:"references:id" valid:"-"`
 
 	//Employee_id ทำหน้าที่เป็น FK
 	EmployeeID *uint
-	Employee   Employee
+	Employee   Employee `gorm:"references:id" valid:"-"`
 
 	//Checkin_id ทำหน้าที่เป็น FK
 	CheckinID *uint
-	Checkin   Checkin
+	Checkin   Checkin `gorm:"references:id" valid:"-"`
 
 	//Reservation_id ทำหน้าที่เป็น FK
 	ReservationID *uint
-	Reservation   Reservation
+	Reservation   Reservation `gorm:"references:id" valid:"-"`
 
 	//Reciept_id ทำหน้าที่เป็น FK
 	RecieptID *uint
-	Reciept   Reciept
+	Reciept   Reciept `gorm:"references:id" valid:"-"`
 }
 
 // -----------------------------------------------------------------------------
