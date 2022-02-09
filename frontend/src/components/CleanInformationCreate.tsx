@@ -59,6 +59,7 @@ function CleaninformationCreate() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const apiUrl = "http://localhost:8080";
   const requestOptions = {
@@ -72,7 +73,7 @@ function CleaninformationCreate() {
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
-    }
+    } 
     setSuccess(false);
     setError(false);
   };
@@ -122,7 +123,7 @@ function CleaninformationCreate() {
       .then((response) => response.json())
       .then((res) => {
         if (res.data) {
-          setRestroom(res.data);
+           setRestroom(res.data);
         } else {
           console.log("else");
         }
@@ -173,9 +174,11 @@ function CleaninformationCreate() {
         if (res.data) {
           console.log("บันทึกได้")
           setSuccess(true);
+          setErrorMessage("")
         } else {
           console.log("บันทึกไม่ได้")
           setError(true);
+          setErrorMessage(res.error)
         }
       });
   }
@@ -184,12 +187,12 @@ function CleaninformationCreate() {
     <Container className={classes.container} maxWidth="md">
     <Snackbar open={success} autoHideDuration={6000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="success">
-        บันทึกสำเร็จ
+        บันทึกข้อมูลสำเร็จ
       </Alert>
     </Snackbar>
     <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">
-        บันทึกไม่สำเร็จ
+        บันทึกข้อมูลไม่สำเร็จ : {errorMessage}
       </Alert>
     </Snackbar>
     <Paper className={classes.paper}>
@@ -343,7 +346,7 @@ function CleaninformationCreate() {
         
         <Grid container spacing={3} className={classes.root}>
         <Grid item xs={10}>
-          <Button component={RouterLink} to="/cleaninformation" variant="contained">
+          <Button component={RouterLink} to="/cleaninformations" variant="contained">
             กลับ
           </Button>
           <Button              
