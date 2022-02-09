@@ -3,11 +3,12 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team04/entity"
 )
 
-// POST /volunteer_documents
+// POST /Checkin
 func CreateCheckins(c *gin.Context) {
 
 	var checkins entity.Checkin
@@ -55,6 +56,11 @@ func CreateCheckins(c *gin.Context) {
 		Checkin_equiptment_cost: checkins.Checkin_equiptment_cost,
 	}
 
+	// ขั้นตอนการ Validate ที่นำมาจาก unit test
+	if _, err := govalidator.ValidateStruct(Ci); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 	// บันทึก
 	if err := entity.DB().Create(&Ci).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
