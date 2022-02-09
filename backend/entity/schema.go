@@ -9,6 +9,7 @@ import (
 )
 
 //-----------ระบบสมาชิก----------------//
+
 type Customer struct {
 	gorm.Model
 	Customer_name   string
@@ -40,17 +41,17 @@ type Employee struct {
 
 type Restroom struct {
 	gorm.Model
-	Room_number          uint `gorm:"uniqueIndex"`
+	Room_number          uint `gorm:"uniqueIndex" valid:"int~หมายเลขห้องต้องเป็นตัวเลขเท่านั้น,required~หมายเลขห้องต้องไม่ว่าง,range(1|999)~หมายเลขห้องต้องไม่เกิน3หลัก"`
 	BuildingID           *uint
 	Building             Building `gorm:"references:id"`
 	Room_typeID          *uint
 	Room_type            Room_type `gorm:"references:id"`
 	Room_statusID        *uint
 	Room_status          Room_status `gorm:"references:id"`
-	Restroom_description string
+	Restroom_description string      `valid:"stringlength(0|20)~คำอธิบายต้องไม่เกิน 20 ตัวอักษร "`
 	EmployeeID           *uint
 	Employee             Employee
-	Update_date          time.Time
+	Update_date          time.Time `valid:"past~วันที่อัพเดทข้อมูลต้องไม่เป็นอนาคต"`
 
 	Reservations      []Reservation      `gorm:"foreignKey:RestroomID"`
 	Reciepts          []Reciept          `gorm:"foreignKey:RestroomID"`

@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team04/entity"
 )
@@ -46,6 +47,11 @@ func CreateRestroom(c *gin.Context) {
 		Employee:             employee,
 		Restroom_description: restroom.Restroom_description,
 		Update_date:          restroom.Update_date,
+	}
+
+	if _, err := govalidator.ValidateStruct(ap); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if err := entity.DB().Create(&ap).Error; err != nil {
