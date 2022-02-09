@@ -66,6 +66,7 @@ function ReservationCreate() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMassage] = useState("");
 
   const [state, setState] = useState({
     Success: true,
@@ -193,9 +194,11 @@ function ReservationCreate() {
         if (res.data) {
           console.log("บันทึกได้")
           setSuccess(true);
+          setErrorMassage("")
         } else {
           console.log("บันทึกไม่ได้")
           setError(true);
+          setErrorMassage(res.error)
         }
       });
 
@@ -212,7 +215,7 @@ function ReservationCreate() {
       </Snackbar>
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-            จองห้องพักไม่สำเร็จ
+            จองห้องพักไม่สำเร็จ: {errorMessage}
         </Alert>
       </Snackbar>
 
@@ -312,14 +315,14 @@ function ReservationCreate() {
 
           <Grid container spacing={3} className={classes.root}> 
           <Grid item xs={2}>
-            <h3>จำนวนคนที่ต้องการเข้าพัก</h3> 
+            <p>จำนวนคนที่ต้องการเข้าพัก</p> 
             </Grid>
             <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">
             <TextField
                id="Number_customer"
                variant="outlined"
-               type="string"
+               type="number"
                size="medium"
                label="กรุณากรอกจำนวนคนที่ต้องการเข้าพัก"
                value={ reservations.Number_customer || ""}
@@ -360,7 +363,7 @@ function ReservationCreate() {
 
           <Grid container spacing={3} className={classes.root}> 
           <Grid item xs={2}>
-            <h3>เบอร์โทรศัพท์</h3> 
+            <p>เบอร์โทรศัพท์</p> 
             </Grid>
             <Grid item xs={6}>
             <FormControl fullWidth variant="outlined">

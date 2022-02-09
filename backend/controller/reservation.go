@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team04/entity"
 )
@@ -47,6 +48,17 @@ func CreateReservation(c *gin.Context) {
 		Number_customer: reservation.Number_customer,
 		Paymentmethod:   paymentmethod,
 		Customer_tel:    reservation.Customer_tel,
+	}
+
+	// แทรกการ validate ไว้ช่วงนี้ของ controller
+	if _, err := govalidator.ValidateStruct(reserve); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if _, err := entity.CannotLessthanOne(reserve.Number_customer); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	//  บันทึก

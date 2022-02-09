@@ -1,8 +1,10 @@
 package entity
 
 import (
+	"fmt"
 	"time"
 
+	"github.com/asaskevich/govalidator"
 	"gorm.io/gorm"
 )
 
@@ -79,19 +81,19 @@ type Room_status struct {
 
 type Reservation struct {
 	gorm.Model
-	Checkin_date    time.Time
-	Checkout_date   time.Time
+	Checkin_date    time.Time `valid:"future~Check-in must be FUTURE"`
+	Checkout_date   time.Time `valid:"future~Check-out must be FUTURE"`
 	Number_customer uint
-	Customer_tel    string
+	Customer_tel    string `valid:"matches(^[0]\\d{9}$),numeric"`
 
 	CustomerID *uint
-	Customer   Customer
+	Customer   Customer `gorm:"references:id" valid:"-"`
 
 	PaymentmethodID *uint
-	Paymentmethod   Paymentmethod
+	Paymentmethod   Paymentmethod `gorm:"references:id" valid:"-"`
 
 	RestroomID *uint
-	Restroom   Restroom
+	Restroom   Restroom `gorm:"references:id" valid:"-"`
 
 	Reciepts  []Reciept  `gorm:"foreignKey:ReservationID"`
 	Checkins  []Checkin  `gorm:"foreignKey:ReservationID"`
@@ -202,4 +204,24 @@ type Checkout struct {
 	//Reciept_id ทำหน้าที่เป็น FK
 	RecieptID *uint
 	Reciept   Reciept
+}
+
+// -----------------------------------------------------------------------------
+func init() {
+	govalidator.CustomTypeTagMap.Set("past", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.Before(time.Now())
+	})
+	govalidator.CustomTypeTagMap.Set("future", func(i interface{}, context interface{}) bool {
+		t := i.(time.Time)
+		return t.After(time.Now())
+	})
+}
+
+func CannotLessthanOne(t uint) (bool, error) {
+	if t < 1 {
+		return false, fmt.Errorf("Number of Customer cannot less than one")
+	} else {
+		return true, nil
+	}
 }
