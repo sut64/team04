@@ -8,17 +8,6 @@ import (
 )
 
 //-----------ระบบสมาชิก----------------//
-func init() {
-	govalidator.CustomTypeTagMap.Set("past", func(i interface{}, context interface{}) bool {
-		t := i.(time.Time)
-		return t.Before(time.Now())
-	})
-
-	govalidator.CustomTypeTagMap.Set("future", func(i interface{}, context interface{}) bool {
-		t := i.(time.Time)
-		return t.After(time.Now())
-	})
-}
 
 type Customer struct {
 	gorm.Model
