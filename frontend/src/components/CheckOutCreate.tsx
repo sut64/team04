@@ -37,6 +37,7 @@ import { CustomerInterface } from "../models/ICustomer";
 import { EmployeeInterface } from "../models/IEmployee";
 import { RecieptInterface } from "../models/IReciept";
 import { CheckoutInterface } from "../models/ICheckout";
+import { FormHelperText } from "@material-ui/core";
 //import { SliderValueLabel } from "@mui/material";
 //import { id } from "date-fns/locale";
 
@@ -73,7 +74,7 @@ function CheckoutCreate() {
   const [checkins, setCheckin] = useState<CheckinInterface[]>([]);;
   const [reservations, setReservation] = useState<ReservationInterface[]>([]);
   const [customers, setCustomer] = useState<CustomerInterface[]>([]);
-  const [employees, setEmployee] = useState<EmployeeInterface[]>([]);
+  const [employees, setEmployee] = useState<EmployeeInterface>();
   const [reciepts, setReciept] = useState<RecieptInterface[]>([]);
   const [checkout, setCheckout] = useState<Partial<CheckoutInterface>>(
     {}
@@ -81,6 +82,7 @@ function CheckoutCreate() {
   
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, serErrorMessage] = useState("");
 
   const handleDateChange = (date: Date | null) => {
     console.log(date);
@@ -130,11 +132,9 @@ function CheckoutCreate() {
   };
 
   const getCheckins = async () => {
-    let uid = localStorage.getItem("uid");
     fetch(`${apiUrl}/checkins`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
-        checkout.CustomerID = res.data.ID;
         if (res.data) {
           setCheckin(res.data);
         } else {
@@ -168,9 +168,11 @@ function CheckoutCreate() {
   };
 
   const getEmployees = async () => {
-    fetch(`${apiUrl}/employees`, requestOptions)
+    let uid = localStorage.getItem("uid");
+    fetch(`${apiUrl}/employee/${uid}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        checkout.EmployeeID = res.data.ID;
         if (res.data) {
           setEmployee(res.data);
         } else {
@@ -204,7 +206,7 @@ function CheckoutCreate() {
     setCheckout({ ...checkout, [id]: value });
   };
 
-  let checkinshow = 1;
+
 
   //*
   function submit() {
@@ -238,6 +240,7 @@ function CheckoutCreate() {
         } else {
           console.log("บันทึกไม่ได้")
           setError(true);
+          serErrorMessage(res.error)
         }
       });
   }
@@ -251,7 +254,7 @@ function CheckoutCreate() {
       </Snackbar>
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          บันทึกข้อมูลไม่สำเร็จ : {errorMessage}
         </Alert>
       </Snackbar>
       
@@ -445,33 +448,31 @@ function CheckoutCreate() {
           </Grid>       
           
 
-      
           <Grid container spacing={3} className={classes.root}>
+
           <Grid item xs={2}>
-              <p>ผู้ดำเนินการ</p>
+              <p>ชื่อพนักงานผู้ใช้งานระบบ</p>
               </Grid>
-            <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
+              <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
               <Select
                 native
                 value={checkout.EmployeeID}
-                onChange={handleChange}
                 inputProps={{
-                  name: "EmployeeID",
+                  name: "EmployeeID", 
                 }}
               >
-                <option aria-label="None" value="">
-                  เลือกพนักงานที่รับผิดชอบ
+
+                <option value={employees?.ID} key={employees?.ID}>
+                  {employees?.Employee_name}
                 </option>
-                {employees.map((item: EmployeeInterface) => (
-                  <option value={item.ID} key={item.ID}>
-                    {item.Employee_name}
-                  </option> 
-                ))} 
+                
               </Select>
+              <FormHelperText> * disabled </FormHelperText>
             </FormControl>
           </Grid>
-          </Grid>       
+          </Grid>
+
 
 
 

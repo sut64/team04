@@ -3,6 +3,7 @@ package controller
 import (
 	"net/http"
 
+	"github.com/asaskevich/govalidator"
 	"github.com/gin-gonic/gin"
 	"github.com/sut64/team04/entity"
 )
@@ -64,6 +65,10 @@ func CreateCheckout(c *gin.Context) {
 		Checkout_datetime: checkout.Checkout_datetime,
 		Room_condition:    checkout.Room_condition,
 		Room_charge:       checkout.Room_charge,
+	}
+	if _, err := govalidator.ValidateStruct(co); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 	//  บันทึก
 	if err := entity.DB().Create(&co).Error; err != nil {
