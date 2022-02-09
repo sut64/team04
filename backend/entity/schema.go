@@ -143,16 +143,16 @@ type Paymentmethod struct {
 type Checkin struct {
 	gorm.Model
 	CustomerID              *uint
-	Customer                Customer
+	Customer                Customer `gorm:"references:id" valid:"-"`
 	EmployeeID              *uint
-	Employee                Employee
+	Employee                Employee `gorm:"references:id" valid:"-"`
 	ReservationID           *uint
-	Reservation             Reservation
+	Reservation             Reservation `gorm:"references:id" valid:"-"`
 	RecieptID               *uint
-	Reciept                 Reciept
-	Checkin_datetime        time.Time
-	Checkin_equiptment      string
-	Checkin_equiptment_cost uint
+	Reciept                 Reciept   `gorm:"references:id" valid:"-"`
+	Checkin_datetime        time.Time `valid:"future~วันที่ Checkin ต้องไม่เป็นอดีต"`
+	Checkin_equiptment      string    `valid:"stringlength(0|800)~อุปกรณ์เสริมความยาวไม่เกิน 800 ตัวอักษร"`
+	Checkin_equiptment_cost int       `valid:"matches(^[1234567890])~ค่าอุปกรณ์เสริมต้องไม่ติดลบ"`
 
 	Checkouts []Checkout `gorm:"foreignKey:CheckinID"`
 }

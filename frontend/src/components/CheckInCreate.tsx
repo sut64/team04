@@ -25,6 +25,7 @@ import { CustomerInterface } from "../models/ICustomer";
 import { EmployeeInterface } from "../models/IEmployee";
 import { RecieptInterface } from "../models/IReciept";
 import { ReservationInterface } from "../models/IReservation";
+import { FormHelperText } from "@material-ui/core";
 import {
   MuiPickersUtilsProvider,
   KeyboardDateTimePicker,
@@ -55,7 +56,7 @@ function CheckinCreate() {
   const classes = useStyles();
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [customers, setCustomers] = useState<CustomerInterface[]>([]);
-  const [employees, setEmployees] = useState<EmployeeInterface[]>([]);
+  const [employees, setEmployee] = useState<EmployeeInterface>();
   const [reciepts, setReciepts] = useState<RecieptInterface[]>([]);
   const [reservations, setReservations] = useState<ReservationInterface[]>([]);
   const [checkins, setCheckins] = useState<Partial<CheckinInterface>>(
@@ -64,6 +65,8 @@ function CheckinCreate() {
 
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
 
   const apiUrl = "http://localhost:8080";
   const requestOptions = {
@@ -111,11 +114,13 @@ function CheckinCreate() {
   };
 
   const getEmployees = async () => {
-    fetch(`${apiUrl}/employees`, requestOptions)
+    let uid = localStorage.getItem("uid");
+    fetch(`${apiUrl}/employee/${uid}`, requestOptions)
       .then((response) => response.json())
       .then((res) => {
+        checkins.EmployeeID = res.data.ID;
         if (res.data) {
-          setEmployees(res.data);
+          setEmployee(res.data);
         } else {
           console.log("else");
         }
@@ -194,9 +199,11 @@ function CheckinCreate() {
         if (res.data) {
           console.log("บันทึกได้")
           setSuccess(true);
+          setErrorMessage("")
         } else {
           console.log("บันทึกไม่ได้")
           setError(true);
+          setErrorMessage(res.error)
         }
       });
   }
@@ -210,7 +217,7 @@ function CheckinCreate() {
       </Snackbar>
       <Snackbar open={error} autoHideDuration={6000} onClose={handleClose}>
         <Alert onClose={handleClose} severity="error">
-          บันทึกข้อมูลไม่สำเร็จ
+          บันทึกข้อมูลไม่สำเร็จ : {errorMessage}
         </Alert>
       </Snackbar>
       
@@ -361,7 +368,7 @@ function CheckinCreate() {
                   name="Checkin_datetime"
                   value={selectedDate}
                   onChange={handleDateChange}
-                  label="กรุณาเลือกวันที่ทำกิจกรรม"
+                  label="กรุณาเลือกวันที่CheckIn"
                   minDate={new Date("วันเวลาที่ Checkout")}
                   format="yyyy/MM/dd hh:mm"
                 />
@@ -373,28 +380,25 @@ function CheckinCreate() {
           <Grid item xs={2}>
               <p>พนักงาน</p>
               </Grid>
-            <Grid item xs={6}>
-            <FormControl fullWidth variant="outlined">
+              <Grid item xs={6}>
+              <FormControl fullWidth variant="outlined">
               <Select
                 native
                 value={checkins.EmployeeID}
-                onChange={handleChange}
                 inputProps={{
-                  name: "EmployeeID",
+                  name: "EmployeeID", 
                 }}
               >
-                <option aria-label="None" value="">
-                  ชื่อ-นามสกุล
+
+                <option value={employees?.ID} key={employees?.ID}>
+                  {employees?.Employee_name}
                 </option>
-                {employees.map((item: EmployeeInterface) => (
-                  <option value={item.ID} key={item.ID}>
-                    {item.Employee_name}
-                  </option> 
-                ))} 
+                
               </Select>
+              <FormHelperText> * disabled </FormHelperText>
             </FormControl>
           </Grid>
-          </Grid>       
+          </Grid>    
 
 
           <Grid container spacing={4} className={classes.root}>
