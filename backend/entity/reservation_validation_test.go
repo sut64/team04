@@ -98,7 +98,7 @@ func TestNumberofCutomerCannotLessthanOne(t *testing.T) {
 	g.Expect(err.Error()).To(Equal("Number of Customer cannot less than one"))
 }
 
-func TestStudentIDMustBeInValidPattern(t *testing.T) {
+func TestCustomerTelMustBeInValidPattern(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	fixtures := []string{
