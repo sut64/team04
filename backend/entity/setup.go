@@ -262,8 +262,8 @@ func SetupDatabase() {
 	// ระบบจองห้องพัก -- มิ้ว
 	// Reservation
 	Reservation01 := Reservation{
-		Checkin_date:    time.Now(),
-		Checkout_date:   time.Now(),
+		Checkin_date:    time.Date(2022, 4, 5, 0, 0, 0, 0, time.UTC),
+		Checkout_date:   time.Date(2022, 4, 10, 0, 0, 0, 0, time.UTC),
 		Number_customer: 2,
 		Customer_tel:    "0981614221",
 		Customer:        Customer02,
@@ -273,8 +273,8 @@ func SetupDatabase() {
 	db.Model(&Reservation{}).Create(&Reservation01)
 
 	Reservation02 := Reservation{
-		Checkin_date:    time.Now(),
-		Checkout_date:   time.Now(),
+		Checkin_date:    time.Date(2022, 4, 10, 0, 0, 0, 0, time.UTC),
+		Checkout_date:   time.Date(2022, 4, 20, 0, 0, 0, 0, time.UTC),
 		Number_customer: 1,
 		Customer_tel:    "0981614221",
 		Customer:        Customer01,
@@ -289,7 +289,7 @@ func SetupDatabase() {
 	Reciept01 := Reciept{
 		Payment_status: "ยังไม่จ่าย",
 		Price:          500,
-		Payment_date:   time.Now().AddDate(2022, 1, 15),
+		Payment_date:   time.Date(2022, 4, 10, 0, 0, 0, 0, time.UTC),
 		Payment_bill:   "url1",
 		Paymentmethod:  Paymentmethod01,
 		Customer_name:  "fasfahr",
@@ -303,7 +303,7 @@ func SetupDatabase() {
 	Reciept02 := Reciept{
 		Payment_status: "จ่ายแล้ว",
 		Price:          2500,
-		Payment_date:   time.Now().AddDate(2021, 12, 25),
+		Payment_date:   time.Date(2022, 4, 15, 0, 0, 0, 0, time.UTC),
 		Payment_bill:   "url2",
 		Paymentmethod:  Paymentmethod02,
 		Customer_name:  "hjowirhjow",
@@ -323,7 +323,7 @@ func SetupDatabase() {
 		Reciept:                 Reciept01,
 		Checkin_equiptment:      "ชุดเครื่องนอนเสริม, หมอน , เก้าอี้",
 		Checkin_equiptment_cost: 600,
-		Checkin_datetime:        time.Now(),
+		Checkin_datetime:        time.Date(2022, 4, 5, 0, 0, 0, 0, time.UTC),
 		Employee:                Employee02,
 	}
 	db.Model(&Checkin{}).Create(&Checkin01)
@@ -334,7 +334,7 @@ func SetupDatabase() {
 		Reciept:                 Reciept02,
 		Checkin_equiptment:      "ชุดเครื่องนอนเสริม, หมอน , เก้าอี้",
 		Checkin_equiptment_cost: 600,
-		Checkin_datetime:        time.Now(),
+		Checkin_datetime:        time.Date(2022, 4, 10, 0, 0, 0, 0, time.UTC),
 		Employee:                Employee04,
 	}
 	db.Model(&Checkin{}).Create(&Checkin02)
@@ -350,7 +350,7 @@ func SetupDatabase() {
 		Employee:          Employee01,
 		Room_condition:    "โต๊ะ , เก้าอี้ , ตู้เย็น",
 		Room_charge:       500,
-		Checkout_datetime: time.Now(),
+		Checkout_datetime: time.Date(2022, 4, 14, 0, 0, 0, 0, time.UTC),
 	}
 	db.Model(&Checkout{}).Create(&Checkout1)
 
@@ -363,7 +363,7 @@ func SetupDatabase() {
 		Employee:          Employee02,
 		Room_condition:    "ฟักบัว , เตียง , แอร์",
 		Room_charge:       600,
-		Checkout_datetime: time.Now(),
+		Checkout_datetime: time.Date(2022, 4, 30, 0, 0, 0, 0, time.UTC),
 	}
 	db.Model(&Checkout{}).Create(&Checkout2)
 
@@ -394,7 +394,7 @@ func SetupDatabase() {
 	db.Model(&Cleaninformation{}).Create(&Cleaninformation{
 		Hastelevel:       1,
 		Note:             "ส้วมตันจ้า",
-		Cleandate:        time.Now(),
+		Cleandate:        time.Date(2022, 4, 15, 0, 0, 0, 0, time.UTC),
 		Customer:         Customer02,
 		Restroom:         Restroom01,
 		Cleanservicetype: Cleanservice4,
@@ -403,7 +403,7 @@ func SetupDatabase() {
 	db.Model(&Cleaninformation{}).Create(&Cleaninformation{
 		Hastelevel:       5,
 		Note:             "ที่นอนมีคราบสกปรกงับ",
-		Cleandate:        time.Now(),
+		Cleandate:        time.Date(2022, 4, 20, 0, 0, 0, 0, time.UTC),
 		Customer:         Customer01,
 		Restroom:         Restroom02,
 		Cleanservicetype: Cleanservice3,
