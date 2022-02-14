@@ -346,7 +346,7 @@ function CleaninformationCreate() {
         
         <Grid container spacing={3} className={classes.root}>
         <Grid item xs={10}>
-          <Button component={RouterLink} to="/cleaninformations" variant="contained">
+          <Button component={RouterLink} to="/cleaninformation" variant="contained">
             กลับ
           </Button>
           <Button              
