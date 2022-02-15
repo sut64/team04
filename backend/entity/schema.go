@@ -82,10 +82,10 @@ type Room_status struct {
 
 type Reservation struct {
 	gorm.Model
-	Checkin_date    time.Time `valid:"future~Check-in must be FUTURE"`
-	Checkout_date   time.Time `valid:"future~Check-out must be FUTURE"`
+	Checkin_date    time.Time `valid:"future~วันที่ต้องการ Check-in ต้องไม่เป็นวันในอดีต"`
+	Checkout_date   time.Time `valid:"future~วันที่ต้องการ Check-out ต้องไม่เป็นวันในอดีต"`
 	Number_customer uint
-	Customer_tel    string `valid:"matches(^[0]\\d{9}$),numeric"`
+	Customer_tel    string `valid:"matches(^[0]\\d{9}$)~เบอร์โทรศัพท์ : %s ต้องมี 10 หลัก,numeric"`
 
 	CustomerID *uint
 	Customer   Customer `gorm:"references:id" valid:"-"`
@@ -221,7 +221,7 @@ func init() {
 
 func CannotLessthanOne(t uint) (bool, error) {
 	if t < 1 {
-		return false, fmt.Errorf("Number of Customer cannot less than one")
+		return false, fmt.Errorf("จำนวนคนที่ต้องการเข้าพักต้องไม่ต่ำกว่า 1 คน")
 	} else {
 		return true, nil
 	}
