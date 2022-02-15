@@ -50,7 +50,7 @@ func TestReservationCheckinMustbeFuture(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Check-in must be FUTURE"))
+	g.Expect(err.Error()).To(Equal("วันที่ต้องการ Check-in ต้องไม่เป็นวันในอดีต"))
 }
 
 func TestReservationCheckoutMustbeFuture(t *testing.T) {
@@ -73,7 +73,7 @@ func TestReservationCheckoutMustbeFuture(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Check-out must be FUTURE"))
+	g.Expect(err.Error()).To(Equal("วันที่ต้องการ Check-out ต้องไม่เป็นวันในอดีต"))
 }
 
 func TestNumberofCutomerCannotLessthanOne(t *testing.T) {
@@ -95,7 +95,7 @@ func TestNumberofCutomerCannotLessthanOne(t *testing.T) {
 	g.Expect(err).ToNot(BeNil())
 
 	// err.Error ต้องมี error message แสดงออกมา
-	g.Expect(err.Error()).To(Equal("Number of Customer cannot less than one"))
+	g.Expect(err.Error()).To(Equal("จำนวนคนที่ต้องการเข้าพักต้องไม่ต่ำกว่า 1 คน"))
 }
 
 func TestCustomerTelMustBeInValidPattern(t *testing.T) {
@@ -137,6 +137,6 @@ func TestCustomerTelMustBeInValidPattern(t *testing.T) {
 		g.Expect(err).ToNot(BeNil())
 
 		// err.Error ต้องมี error message แสดงออกมา
-		g.Expect(err.Error()).To(Equal(fmt.Sprintf(`Customer_tel: %s does not validate as matches(^[0]\d{9}$)`, fixture)))
+		g.Expect(err.Error()).To(Equal(fmt.Sprintf(`เบอร์โทรศัพท์ : %s ต้องมี 10 หลัก`, fixture)))
 	}
 }
