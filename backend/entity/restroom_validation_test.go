@@ -40,39 +40,3 @@ func TestRoomNumberNotInRage(t *testing.T) {
 
 	g.Expect(err.Error()).To(Equal("หมายเลขห้องต้องไม่เกิน3หลัก"))
 }
-
-func TestDescriptionStringleng(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	restroom01 := Restroom{
-		Room_number:          111,
-		Restroom_description: "ABCDEFGHIJKLMNOPQRSTUVWXYZ", // Description เกิน 20 ตัวอักษร
-		Update_date:          time.Date(2021, 2, 1, 3, 0, 0, 0, time.UTC),
-	}
-	// ตรวจสอบด้วย govalidator
-	ok, err := govalidator.ValidateStruct(restroom01)
-
-	g.Expect(ok).ToNot(BeTrue())
-
-	g.Expect(err).ToNot(BeNil())
-
-	g.Expect(err.Error()).To(Equal("คำอธิบายต้องไม่เกิน 20 ตัวอักษร"))
-}
-
-func TestUpdateDateCannotbePast(t *testing.T) {
-	g := NewGomegaWithT(t)
-
-	restroom01 := Restroom{
-		Room_number:          111,
-		Restroom_description: "ABCDE",
-		Update_date:          time.Date(2023, 2, 1, 3, 0, 0, 0, time.UTC), //เวลาเป็นอนาคต
-	}
-	// ตรวจสอบด้วย govalidator
-	ok, err := govalidator.ValidateStruct(restroom01)
-
-	g.Expect(ok).ToNot(BeTrue())
-
-	g.Expect(err).ToNot(BeNil())
-
-	g.Expect(err.Error()).To(Equal("วันที่อัพเดทข้อมูลต้องไม่เป็นอนาคต"))
-}
