@@ -148,7 +148,7 @@ function RestroomCreate() {
             Room_typeID : convertType(Restroom.Room_typeID),
             Room_statusID : convertType(Restroom.Room_statusID),
             Restroom_description : Restroom.Restroom_description ?? "",
-            EmployeeID: convertType(Restroom.EmployeeID),
+            EmployeeID: Employee?.ID,
             Update_date : selectedDate,
         };console.log(data)
 
@@ -311,17 +311,14 @@ function RestroomCreate() {
                     <FormControl fullWidth variant="outlined">                        
                             <Select
                                 native
-                                value={Restroom.EmployeeID}
+                                disabled
                                 onChange={handleChange}
                                 inputProps={{
                                 name: "EmployeeID",
                                 }}
                             >
-                              <option aria-label="None" value={""}>
-                                ผู้อัพเดท
-                                </option>
-                                <option value={Employee?.ID} key={Employee?.ID}>
-                                    {Employee?.Employee_name}
+                              <option aria-label="None" value={Employee?.ID}>
+                              {Employee?.Employee_name}
                                 </option>
                             </Select>
                         </FormControl>
